@@ -7,6 +7,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import static org.junit.Assert.*;
+import static org.mockito.BDDMockito.given;
 
 public class MailServiceTest {
 
@@ -24,7 +25,18 @@ public class MailServiceTest {
     }
 
     @Test
-    public void sendMessage() {
+    public void sendMessageShouldReturnTrue() {
+        given(mailSender.sendMessage()).willReturn(
+                new Message("from", "to", "subject", "text")
+        );
+
+        boolean exists = mailService.sendMessage(message);
+        assertTrue("Message 123 :is", exists);
+
+    }
+
+    @Test
+    public void sendMessageShouldReturnFalse() {
     }
 
     @Test
