@@ -1,21 +1,28 @@
 package com.haulmont.task;
 
+import com.haulmont.example.order.OrderStatus;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.mockito.runners.MockitoJUnitRunner;
 
 import static org.junit.Assert.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 
+@RunWith(MockitoJUnitRunner.class)
 public class MailServiceTest {
 
     @Mock
     private MailSender mailSender;
     @Mock
     private MessageRepository messageRepository;
-
+    @Mock
     private MailService mailService;
 
     @Before
@@ -26,22 +33,20 @@ public class MailServiceTest {
 
     @Test
     public void sendMessageShouldReturnTrue() {
-        given(mailSender.sendMessage()).willReturn(
-                new Message("from", "to", "subject", "text")
-        );
-
+        Message message = new Message(anyString(), any(), any(), anyString());
+        Mockito.when(mailService.sendMessage(message)).thenReturn(true);
         boolean exists = mailService.sendMessage(message);
-        assertTrue("Message 123 :is", exists);
-
+        assertTrue(exists);
+        assertEquals(message.getStatus(), Status.DELIVERED);
     }
 
-    @Test
-    public void sendMessageShouldReturnFalse() {
-    }
-
-    @Test
-    public void removeMessage() {
-    }
+//    @Test
+//    public void sendMessageShouldReturnFalse() {
+//    }
+//
+//    @Test
+//    public void removeMessage() {
+//    }
 }
 
 //Необходимо покрыть тестами класс com.haulmont.task.MailService
