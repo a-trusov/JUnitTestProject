@@ -33,7 +33,7 @@ public class MailServiceTest {
 
     @Test
     public void sendMessageShouldReturnTrue() {
-        Message message = new Message(anyString(), any(), any(), anyString());
+        Message message = messageRepository.addMessage(any(), any(), anyString(), anyString());
         Mockito.when(mailService.sendMessage(message)).thenReturn(true);
         boolean exists = mailService.sendMessage(message);
         assertTrue(exists);
